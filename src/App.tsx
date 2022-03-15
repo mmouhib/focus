@@ -1,18 +1,30 @@
 import * as React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import Clickable from './components/Clickable';
+import { useState } from 'react';
+import Position from './Position';
 
-const RandomPosition = (min: number, max: number): string => {
-	return (Math.floor(Math.random() * max) + min).toString();
-};
-
+//todo generate circle color randomly
 export default function () {
+	const colors: string[] = ['#b22828', '#42853a', '#bbb', '#378e91', '#bb32b3'];
+	const [positions, setPositions] = useState<Position[]>([]);
+
 	return (
 		<ChakraProvider>
-			{[1, 2, 3, 4, 5, 4, 54, 54, 5].map((element, index) => {
-				let top: string = RandomPosition(10, 500) + 'px';
-				let left: string = RandomPosition(15, 700) + 'px';
-				return <Clickable key={index} top={top} left={left} />;
+			{[...Array(10)].map((element, index) => {
+				let top: number = Math.floor(Math.random() * 800) + 10;
+				let left: number = Math.floor(Math.random() * 1500) + 15;
+				// setPositions([new Position(top, left), ...positions]);
+
+				let color: string = colors[Math.floor(Math.random() * colors.length)].toString();
+				return (
+					<Clickable
+						key={index}
+						top={top.toString() + 'px'}
+						left={left.toString() + 'px'}
+						color={color}
+					/>
+				);
 			})}
 		</ChakraProvider>
 	);

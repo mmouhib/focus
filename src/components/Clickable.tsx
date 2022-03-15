@@ -5,30 +5,29 @@ interface ClickableProps {
 	top?: string;
 	bottom?: string;
 	right?: string;
-	left?: string;
+	left: string;
+	color: string;
 }
 
 export default function Clickable(props: ClickableProps): JSX.Element {
 	const [display, setDisplay] = useState<'inline' | 'none'>('inline');
 
-	let Styles: React.CSSProperties = {
+	const Styles: React.CSSProperties = {
 		height: '60px',
 		width: '60px',
-		backgroundColor: '#bbb',
+		backgroundColor: props.color,
 		borderRadius: '50%',
 		position: 'absolute',
 		display: display,
+		top: props.top,
+		left: props.left,
+		right: props.right,
+		bottom: props.bottom,
 	};
 
 	return (
 		<div
-			style={{
-				top: props.top,
-				left: props.left,
-				right: props.right,
-				bottom: props.bottom,
-				...Styles,
-			}}
+			style={Styles}
 			onClick={() => {
 				setDisplay('none');
 			}}
