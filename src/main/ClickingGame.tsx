@@ -6,16 +6,22 @@ import ThemesToggler from '../components/ThemesToggler';
 
 //todo generate circle color randomly
 export default function () {
-	const colors: string[] = ['#b22828', '#42853a', '#bbb', '#378e91', '#bb32b3'];
 	const [positions, setPositions] = useState<Position[]>([]);
+	const [dots, setDots] = useState<number>(0);
 
 	return (
 		<>
 			<ThemesToggler />
 			{[...Array(15)].map((element, index) => {
-				let color: string = colors[Math.floor(Math.random() * colors.length)].toString();
+				setTimeout(() => {}, 5000);
 				return (
-					<Clickable key={index} color={color} positions={positions} setPositions={setPositions} />
+					<Clickable
+						key={index}
+						positions={positions}
+						setPositions={setPositions}
+						dots={dots}
+						setDots={setDots}
+					/>
 				);
 			})}
 		</>

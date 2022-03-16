@@ -1,6 +1,6 @@
 export default class Position {
-	private top: number;
-	private left: number;
+	private readonly top: number;
+	private readonly left: number;
 
 	constructor(top: number, left: number) {
 		this.top = top;
