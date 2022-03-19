@@ -5,38 +5,18 @@ import styled from 'styled-components';
 
 interface ClickableProps {
 	key: number;
+	index: number;
 	positions: Position[];
 	setPositions: (value: Position[]) => void;
 	dots: number;
 	setDots: (value: number) => void;
+	top: number;
+	left: number;
 }
 
 export default function (props: ClickableProps): JSX.Element {
 	const colors: string[] = ['#da2d2d', '#87fc77', '#de2ec1', '#229fe3', '#bb32b3'];
-
 	const [display, setDisplay] = useState<'inline' | 'none'>('inline');
-	const [top, setTop] = useState<number>(0);
-	const [left, setLeft] = useState<number>(0);
-
-	const PositionsPicker = (): Position => {
-		let top: number = Math.floor(Math.random() * 900) + 10;
-		let left: number = Math.floor(Math.random() * 1840) + 15;
-		return new Position(top, left);
-	};
-
-	useEffect(() => {
-		let positionsObject = PositionsPicker();
-		setTop(positionsObject.getTop());
-		setLeft(positionsObject.getLeft());
-
-		props.setPositions([...props.positions, positionsObject]);
-		props.setDots(props.dots + 1);
-
-		setTimeout(() => {
-			setDisplay('none');
-			props.setDots(props.dots - 1);
-		}, Math.floor(Math.random() * 50000));
-	}, []);
 
 	const StyledDot = styled.div`
 		height: 70px;
@@ -46,47 +26,58 @@ export default function (props: ClickableProps): JSX.Element {
 		animation-name: resize;
 		animation-duration: 2s;
 		animation-iteration-count: infinite;
-		top: ${top.toString() + 'px'};
-		left: ${left.toString() + 'px'};
+		top: ${props.top.toString() + 'px'};
+		left: ${props.left.toString() + 'px'};
+		display: ${display};
+		background: ${colors[Math.floor(Math.random() * colors.length)]};
 
 		@keyframes resize {
 			0% {
-				top: ${(top + top * 0.2).toString() + 'px'};
-				left: ${(left + left * 0.1).toString() + 'px'};
+				//top: ${props.top.toString() + 'px'};
+				//left: ${props.left.toString() + 'px'};
 				height: 70px;
 				width: 70px;
 			}
 			25% {
-				top: ${(top + top * 0.3).toString() + 'px'};
-				left: ${(left + left * 0.2).toString() + 'px'};
+				// top: ${(props.top + props.top * 0.1).toString() + 'px'};
+				// left: ${(props.left + props.left * 0.1).toString() + 'px'};
+
 				height: 80px;
 				width: 80px;
 			}
 			50% {
+				// top: ${(props.top + props.top * 0.2).toString() + 'px'};
+				// left: ${(props.left + props.left * 0.2).toString() + 'px'};
 				height: 90px;
 				width: 90px;
-				border: 3px dashed #00d0ff;
+				border: 4px dashed ${colors[Math.floor(Math.random() * colors.length)]}; // random color from colors array
 				border-radius: 45%;
 			}
 			75% {
+				// top: ${(props.top + props.top * 0.1).toString() + 'px'};
+				// left: ${(props.left + props.left * 0.1).toString() + 'px'};
 				height: 80px;
 				width: 80px;
 			}
 			100% {
+				// top: ${props.top.toString() + 'px'};
+				// left: ${props.left.toString() + 'px'};
 				height: 70px;
 				width: 70px;
 			}
 		}
 	`;
 
-	const Styles: React.CSSProperties = {
-		backgroundColor: colors[Math.floor(Math.random() * colors.length)].toString(),
-		display: display,
-	};
+	useEffect(() => {
+		console.log(props.top, props.left);
+		console.log(props.index);
+		setTimeout(() => {
+			setDisplay('none');
+		}, Math.floor(Math.random() * 50000));
+	}, []);
 
 	return (
 		<StyledDot
-			style={Styles}
 			onClick={() => {
 				setDisplay('none');
 			}}
